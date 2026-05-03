@@ -117,6 +117,23 @@ export function useComicView() {
     await goToPage(currentPage.value + 1);
   }
 
+  function handleArrowNavigation(event) {
+    if (!firstPageDataUrl.value) {
+      return;
+    }
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      void goToPreviousPage();
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      void goToNextPage();
+    }
+  }
+
   return {
     selectedComicPath,
     statusMessage,
@@ -134,5 +151,6 @@ export function useComicView() {
     toggleImageVisibilityMode,
     goToPreviousPage,
     goToNextPage,
+    handleArrowNavigation,
   };
 }

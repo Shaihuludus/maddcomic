@@ -72,15 +72,27 @@
 .bottom-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border-top: 1px solid rgba(84, 110, 122, 0.25);
-  background-color: rgba(236, 239, 241, 0.95);
+  justify-content: center;
+  gap: 16px;
+  border-top: 1px solid rgba(84, 110, 122, 0.45);
+  background-color: rgba(207, 216, 220, 0.98);
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.bottom-bar :deep(.v-btn) {
+  background-color: rgba(84, 110, 122, 0.2) !important;
+  color: #102027 !important;
+  font-weight: 700;
+}
+
+.bottom-bar :deep(.v-btn:hover) {
+  background-color: rgba(84, 110, 122, 0.32) !important;
 }
 
 .page-indicator {
-  color: #263238;
-  font-weight: 500;
+  color: #102027;
+  font-weight: 700;
+  font-size: 0.98rem;
   white-space: nowrap;
 }
 

@@ -16,6 +16,7 @@ const {
   dismissLoadedOverlay,
   goToPreviousPage,
   goToNextPage,
+  handleArrowNavigation,
 } = useComicView();
 </script>
 
@@ -63,6 +64,7 @@ const {
           class="comic-scroll"
           :class="{ 'full-visible-mode': isFullyVisibleMode }"
           tabindex="0"
+          @keydown="handleArrowNavigation"
         >
           <img
             :src="firstPageDataUrl"
