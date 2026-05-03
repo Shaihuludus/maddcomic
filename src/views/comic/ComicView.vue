@@ -102,4 +102,4 @@ const {
   </v-container>
 </template>
 
-<style scoped src="./ComicView.scoped.css"></style>
+<style scoped src="./ComicView.css"></style>

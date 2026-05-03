@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import ComicView from "./views/comic/ComicView.vue";
-import LibraryView from "./views/LibraryView.vue";
+import LibraryView from "./views/library/LibraryView.vue";
 import SettingsView from "./views/SettingsView.vue";
 
 const activeTab = ref("comic");
@@ -35,5 +35,5 @@ const activeTab = ref("comic");
   </v-app>
 </template>
 
-<style scoped src="./App.scoped.css"></style>
+<style scoped src="./AppOnly.css"></style>
 <style src="./App.css"></style>
