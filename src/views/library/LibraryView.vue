@@ -1,7 +1,20 @@
 <template>
-  <v-container class="py-6">
-    <v-sheet border rounded="lg" class="pa-6">
+  <div class="library-view">
+    <div class="content-card">
       <h2>Library</h2>
-    </v-sheet>
-  </v-container>
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.library-view {
+  padding: 24px 0;
+}
+
+.content-card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 24px;
+  background: #fff;
+}
+</style>

@@ -1,47 +1,35 @@
 import { createApp } from 'vue'
-
-// Vuetify
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-
-/* FONTS */
-import '@fontsource/roboto/100.css'
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
-import '@fontsource/roboto/900.css'
-
-/* optional italic styles */
-import '@fontsource/roboto/100-italic.css'
-import '@fontsource/roboto/300-italic.css'
-import '@fontsource/roboto/400-italic.css'
-import '@fontsource/roboto/500-italic.css'
-import '@fontsource/roboto/700-italic.css'
-import '@fontsource/roboto/900-italic.css'
-
-// Components
+import PrimeVue from 'primevue/config'
+import { definePreset } from '@primeuix/themes'
+import Aura from '@primeuix/themes/aura'
+import 'primeicons/primeicons.css'
 import App from './App.vue'
 
-const vuetify = createVuetify({
-  components,
-  directives,
-  theme: {
-    defaultTheme: 'blueGreyTheme',
-    themes: {
-      blueGreyTheme: {
-        dark: false,
-        colors: {
-          primary: '#546E7A',
-          secondary: '#78909C',
-          background: '#ECEFF1',
-          surface: '#FFFFFF',
-        },
-      },
+const BlueGreyPreset = definePreset(Aura, {
+  semantic: {
+    primary: {
+      50: '#ECEFF1',
+      100: '#CFD8DC',
+      200: '#B0BEC5',
+      300: '#90A4AE',
+      400: '#78909C',
+      500: '#607D8B',
+      600: '#546E7A',
+      700: '#455A64',
+      800: '#37474F',
+      900: '#263238',
+      950: '#1C242A',
     },
   },
 })
 
-createApp(App).use(vuetify).mount('#app')
+createApp(App)
+  .use(PrimeVue, {
+    theme: {
+      preset: BlueGreyPreset,
+      options: {
+        darkModeSelector: false,
+      },
+    },
+  })
+  .mount('#app')

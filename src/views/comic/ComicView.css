@@ -1,5 +1,5 @@
 .comic-view {
-  height: calc(100vh - 48px);
+  height: 100%;
   min-height: 0;
   overflow: hidden;
 }
@@ -17,9 +17,14 @@
 .sidebar-panel {
   border-right: 1px solid rgba(84, 110, 122, 0.2);
   background-color: rgba(255, 255, 255, 0.6);
+  padding: 8px;
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
   flex: 0 0 auto;
   width: fit-content;
   min-width: fit-content;
@@ -74,18 +79,20 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
+  padding: 8px 12px;
   border-top: 1px solid rgba(84, 110, 122, 0.45);
   background-color: rgba(207, 216, 220, 0.98);
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.18);
 }
 
-.bottom-bar :deep(.v-btn) {
+.bottom-bar :deep(.p-button) {
   background-color: rgba(84, 110, 122, 0.2) !important;
   color: #102027 !important;
   font-weight: 700;
+  border-color: transparent !important;
 }
 
-.bottom-bar :deep(.v-btn:hover) {
+.bottom-bar :deep(.p-button:hover) {
   background-color: rgba(84, 110, 122, 0.32) !important;
 }
 
@@ -101,6 +108,7 @@
   top: 0;
   right: 0;
   z-index: 2;
+  padding: 12px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
@@ -108,6 +116,6 @@
   pointer-events: none;
 }
 
-.loaded-overlay :deep(.v-alert) {
+.loaded-overlay :deep(.p-message) {
   pointer-events: auto;
 }

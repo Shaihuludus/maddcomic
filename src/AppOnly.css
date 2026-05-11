@@ -1,16 +1,64 @@
+.app-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ECEFF1;
+}
 
-:deep(.active-tab) {
-  color: #ffffff !important;
+:deep(.app-tabs) {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: none;
+}
+
+:deep(.app-tab-list) {
+  background-color: #546E7A;
+  border: none;
+  justify-content: center;
+  padding: 4px 0;
+  border-radius: 0;
+}
+
+:deep(.app-tab-list .p-tablist-content) {
+  justify-content: center;
+}
+
+:deep(.app-tab-list .p-tab) {
+  color: rgba(255, 255, 255, 0.72);
+  background: transparent;
+  border: none;
+  font-size: 0.875rem;
+  padding: 6px 16px;
+}
+
+:deep(.app-tab-list .p-tab:hover) {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+:deep(.app-tab-list .p-tab[aria-selected="true"]) {
+  color: #ffffff;
   font-weight: 700;
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
   background-color: rgba(255, 255, 255, 0.18);
   border-radius: 6px;
 }
 
-:deep(.v-tab) {
-  opacity: 0.72;
+:deep(.app-tab-list .p-tablist-active-bar) {
+  display: none;
 }
 
-:deep(.v-tab.active-tab) {
-  opacity: 1;
+:deep(.app-panels) {
+  flex: 1;
+  overflow: hidden;
+  padding: 0;
+  background: transparent;
+}
+
+:deep(.app-panels > .p-tabpanel) {
+  padding: 0;
+  height: 100%;
+  background: transparent;
 }

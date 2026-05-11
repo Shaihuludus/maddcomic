@@ -1,5 +1,7 @@
 <script setup>
 import { useComicView } from "./ComicView";
+import Button from 'primevue/button';
+import Message from 'primevue/message';
 
 const {
   statusMessage,
@@ -21,42 +23,37 @@ const {
 </script>
 
 <template>
-  <v-container fluid class="comic-view pa-0">
+  <div class="comic-view">
     <div class="comic-layout">
-      <v-sheet class="sidebar-panel pa-2" rounded="0">
-        <div class="sidebar d-flex flex-column ga-3 align-start">
-          <v-btn color="primary" size="default" density="compact" class="open-btn" @click="openComicFile">
-          Open comic
-          </v-btn>
+      <div class="sidebar-panel">
+        <div class="sidebar">
+          <Button class="open-btn" @click="openComicFile">
+            Open comic
+          </Button>
 
-          <v-btn
-            color="primary"
-            size="default"
-            density="compact"
-            variant="tonal"
+          <Button
             class="open-btn"
+            severity="secondary"
             :disabled="!firstPageDataUrl"
             @click="toggleImageVisibilityMode"
           >
             {{ isFullyVisibleMode ? "Zoom to width" : "Show full page" }}
-          </v-btn>
+          </Button>
 
-          <v-alert
+          <Message
             v-if="statusMessage && !isComicLoadedStatus"
-            :type="statusMessage === 'Selection canceled.' ? 'info' : 'error'"
-            variant="tonal"
-            density="comfortable"
+            :severity="statusMessage === 'Selection canceled.' ? 'info' : 'error'"
           >
             {{ statusMessage }}
-          </v-alert>
+          </Message>
         </div>
-      </v-sheet>
+      </div>
 
-      <v-sheet class="preview-panel" rounded="0">
-        <div v-if="showLoadedOverlay && isComicLoadedStatus" class="loaded-overlay pa-3">
-          <v-alert type="success" variant="tonal" closable @click:close="dismissLoadedOverlay">
+      <div class="preview-panel">
+        <div v-if="showLoadedOverlay && isComicLoadedStatus" class="loaded-overlay">
+          <Message severity="success" closable @close="dismissLoadedOverlay">
             {{ statusMessage }}
-          </v-alert>
+          </Message>
         </div>
 
         <div
@@ -74,32 +71,30 @@ const {
           />
         </div>
 
-        <v-sheet v-if="firstPageDataUrl && pageCount > 0" class="bottom-bar px-3 py-2" rounded="0">
-          <v-btn
+        <div v-if="firstPageDataUrl && pageCount > 0" class="bottom-bar">
+          <Button
             size="small"
-            variant="tonal"
-            color="primary"
+            severity="secondary"
             :disabled="!canGoToPreviousPage"
             @click="goToPreviousPage"
           >
             Previous
-          </v-btn>
+          </Button>
 
           <span class="page-indicator">Page {{ currentPage }} / {{ pageCount }}</span>
 
-          <v-btn
+          <Button
             size="small"
-            variant="tonal"
-            color="primary"
+            severity="secondary"
             :disabled="!canGoToNextPage"
             @click="goToNextPage"
           >
             Next
-          </v-btn>
-        </v-sheet>
-      </v-sheet>
+          </Button>
+        </div>
+      </div>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <style scoped src="./ComicView.css"></style>

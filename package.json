@@ -10,11 +10,12 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@fontsource/roboto": "^5.2.10",
+    "@primeuix/themes": "^2.0.3",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
-    "vue": "^3.5.13",
-    "vuetify": "^4.0.6"
+    "primeicons": "^7.0.0",
+    "primevue": "^4.5.5",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",

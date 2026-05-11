@@ -1,0 +1,35 @@
+.library-view {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.library-layout {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar-panel {
+  border-right: 1px solid rgba(84, 110, 122, 0.2);
+  background-color: rgba(255, 255, 255, 0.6);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.sidebar {
+  flex: 1 1 auto;
+  width: 280px;
+  min-height: 0;
+}
+
+.preview-panel {
+  flex: 1 1 auto;
+  background-color: #f5f5f5;
+  overflow: hidden;
+  min-height: 0;
+  position: relative;
+}
