@@ -17,8 +17,9 @@ const currentLang = computed({
     <div class="content-card">
       <h2>{{ t('settings') }}</h2>
       <div class="setting-row">
-        <label class="setting-label">{{ t('language') }}</label>
+        <label for="language-select" class="setting-label">{{ t('language') }}</label>
         <Select
+          input-id="language-select"
           v-model="currentLang"
           :options="availableLanguages"
           option-label="name"
