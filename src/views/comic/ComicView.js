@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { invoke } from "@tauri-apps/api/core";
 import { pendingComicPath } from "../../state/appState.js";
 import { t } from "../../i18n/index.js";
@@ -53,9 +53,6 @@ export function useComicView() {
       showLoadedOverlay.value = false;
       loadedOverlayTimeoutId = null;
     }, 2500);
-    await nextTick();
-    const el = document.querySelector(".comic-scroll");
-    if (el instanceof HTMLElement) el.focus();
   }
 
   async function loadComicByPath(path) {
@@ -141,8 +138,8 @@ export function useComicView() {
     }
   }
 
-  onMounted(() => window.addEventListener("keydown", handleArrowNavigation));
-  onUnmounted(() => window.removeEventListener("keydown", handleArrowNavigation));
+  onMounted(() => globalThis.addEventListener("keydown", handleArrowNavigation));
+  onUnmounted(() => globalThis.removeEventListener("keydown", handleArrowNavigation));
 
   return {
     selectedComicPath,

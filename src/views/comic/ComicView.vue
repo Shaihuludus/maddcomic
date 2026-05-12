@@ -62,7 +62,6 @@ const {
           v-if="firstPageDataUrl"
           class="comic-scroll"
           :class="{ 'full-visible-mode': isFullyVisibleMode }"
-          tabindex="0"
         >
           <img
             :src="firstPageDataUrl"
