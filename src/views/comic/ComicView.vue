@@ -2,6 +2,9 @@
 import { useComicView } from "./ComicView";
 import Button from 'primevue/button';
 import Message from 'primevue/message';
+import { useI18n } from '../../i18n/index.js';
+
+const { t } = useI18n();
 
 const {
   statusMessage,
@@ -18,7 +21,6 @@ const {
   dismissLoadedOverlay,
   goToPreviousPage,
   goToNextPage,
-  handleArrowNavigation,
 } = useComicView();
 </script>
 
@@ -28,7 +30,7 @@ const {
       <div class="sidebar-panel">
         <div class="sidebar">
           <Button class="open-btn" @click="openComicFile">
-            Open comic
+            {{ t('openComic') }}
           </Button>
 
           <Button
@@ -37,7 +39,7 @@ const {
             :disabled="!firstPageDataUrl"
             @click="toggleImageVisibilityMode"
           >
-            {{ isFullyVisibleMode ? "Zoom to width" : "Show full page" }}
+            {{ isFullyVisibleMode ? t('zoomToWidth') : t('showFullPage') }}
           </Button>
 
           <Message
@@ -61,7 +63,6 @@ const {
           class="comic-scroll"
           :class="{ 'full-visible-mode': isFullyVisibleMode }"
           tabindex="0"
-          @keydown="handleArrowNavigation"
         >
           <img
             :src="firstPageDataUrl"
@@ -78,10 +79,10 @@ const {
             :disabled="!canGoToPreviousPage"
             @click="goToPreviousPage"
           >
-            Previous
+            {{ t('previous') }}
           </Button>
 
-          <span class="page-indicator">Page {{ currentPage }} / {{ pageCount }}</span>
+          <span class="page-indicator">{{ t('pageIndicator', currentPage, pageCount) }}</span>
 
           <Button
             size="small"
@@ -89,7 +90,7 @@ const {
             :disabled="!canGoToNextPage"
             @click="goToNextPage"
           >
-            Next
+            {{ t('next') }}
           </Button>
         </div>
       </div>

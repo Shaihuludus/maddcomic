@@ -1,9 +1,15 @@
-import { computed, nextTick, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import { pendingComicPath } from "../../state/appState.js";
+import { t } from "../../i18n/index.js";
 
 export function useComicView() {
   const selectedComicPath = ref("");
-  const statusMessage = ref("");
+  const _statusKey = ref(null);
+  const _statusArgs = ref([]);
+  const statusMessage = computed(() =>
+    _statusKey.value ? t(_statusKey.value, ..._statusArgs.value) : ""
+  );
   const pageCount = ref(0);
   const firstPageDataUrl = ref("");
   const firstPageName = ref("");
@@ -11,12 +17,18 @@ export function useComicView() {
   const showLoadedOverlay = ref(false);
   let loadedOverlayTimeoutId = null;
   const isFullyVisibleMode = ref(false);
-  const isComicLoadedStatus = computed(() => statusMessage.value.startsWith("Comic loaded."));
+  const isComicLoadedStatus = computed(() => _statusKey.value === "comicLoaded");
   const canGoToPreviousPage = computed(() => currentPage.value > 1);
   const canGoToNextPage = computed(() => pageCount.value > 0 && currentPage.value < pageCount.value);
 
-  async function openComicFile() {
-    statusMessage.value = "";
+  function setStatus(key, ...args) {
+    _statusKey.value = key;
+    _statusArgs.value = args;
+  }
+
+  function resetState() {
+    _statusKey.value = null;
+    _statusArgs.value = [];
     pageCount.value = 0;
     firstPageDataUrl.value = "";
     firstPageName.value = "";
@@ -27,37 +39,54 @@ export function useComicView() {
       loadedOverlayTimeoutId = null;
     }
     isFullyVisibleMode.value = false;
+  }
 
+  async function applyComic(path) {
+    const comicInfo = await invoke("load_comic_info", { comicPath: path });
+    pageCount.value = comicInfo.file_count;
+    firstPageDataUrl.value = comicInfo.first_page_data_url;
+    firstPageName.value = comicInfo.first_page_name;
+    currentPage.value = 1;
+    setStatus("comicLoaded", comicInfo.file_count);
+    showLoadedOverlay.value = true;
+    loadedOverlayTimeoutId = setTimeout(() => {
+      showLoadedOverlay.value = false;
+      loadedOverlayTimeoutId = null;
+    }, 2500);
+    await nextTick();
+    const el = document.querySelector(".comic-scroll");
+    if (el instanceof HTMLElement) el.focus();
+  }
+
+  async function loadComicByPath(path) {
+    resetState();
+    selectedComicPath.value = path;
+    try {
+      await applyComic(path);
+    } catch (error) {
+      setStatus("failedToOpen", String(error));
+    }
+  }
+
+  watch(pendingComicPath, (path) => {
+    if (path) {
+      pendingComicPath.value = null;
+      loadComicByPath(path);
+    }
+  });
+
+  async function openComicFile() {
+    resetState();
     try {
       const selectedPath = await invoke("open_comic_file");
-
-      if (selectedPath) {
-        selectedComicPath.value = selectedPath;
-
-        const comicInfo = await invoke("load_comic_info", { comicPath: selectedPath });
-        pageCount.value = comicInfo.file_count;
-        firstPageDataUrl.value = comicInfo.first_page_data_url;
-        firstPageName.value = comicInfo.first_page_name;
-        currentPage.value = 1;
-        statusMessage.value = `Comic loaded. ${comicInfo.file_count} pages found.`;
-        showLoadedOverlay.value = true;
-        loadedOverlayTimeoutId = setTimeout(() => {
-          showLoadedOverlay.value = false;
-          loadedOverlayTimeoutId = null;
-        }, 2500);
-
-        await nextTick();
-        const comicScrollElement = document.querySelector(".comic-scroll");
-        if (comicScrollElement instanceof HTMLElement) {
-          comicScrollElement.focus();
-        }
-
+      if (!selectedPath) {
+        setStatus("selectionCanceled");
         return;
       }
-
-      statusMessage.value = "Selection canceled.";
+      selectedComicPath.value = selectedPath;
+      await applyComic(selectedPath);
     } catch (error) {
-      statusMessage.value = `Failed to open comic: ${String(error)}`;
+      setStatus("failedToOpen", String(error));
     }
   }
 
@@ -70,69 +99,50 @@ export function useComicView() {
   }
 
   function toggleImageVisibilityMode() {
-    if (!firstPageDataUrl.value) {
-      return;
-    }
-
+    if (!firstPageDataUrl.value) return;
     isFullyVisibleMode.value = !isFullyVisibleMode.value;
   }
 
   async function goToPage(pageNumber) {
-    if (!selectedComicPath.value || pageCount.value <= 0) {
-      return;
-    }
-
-    if (pageNumber < 1 || pageNumber > pageCount.value) {
-      return;
-    }
-
+    if (!selectedComicPath.value || pageCount.value <= 0) return;
+    if (pageNumber < 1 || pageNumber > pageCount.value) return;
     try {
       const page = await invoke("load_comic_page", {
         comicPath: selectedComicPath.value,
         pageIndex: pageNumber - 1,
       });
-
       firstPageDataUrl.value = page.page_data_url;
       firstPageName.value = page.page_name;
       currentPage.value = pageNumber;
-      statusMessage.value = "";
+      _statusKey.value = null;
     } catch (error) {
-      statusMessage.value = `Failed to switch page: ${String(error)}`;
+      setStatus("failedToSwitchPage", String(error));
     }
   }
 
   async function goToPreviousPage() {
-    if (!canGoToPreviousPage.value) {
-      return;
-    }
-
+    if (!canGoToPreviousPage.value) return;
     await goToPage(currentPage.value - 1);
   }
 
   async function goToNextPage() {
-    if (!canGoToNextPage.value) {
-      return;
-    }
-
+    if (!canGoToNextPage.value) return;
     await goToPage(currentPage.value + 1);
   }
 
   function handleArrowNavigation(event) {
-    if (!firstPageDataUrl.value) {
-      return;
-    }
-
+    if (!firstPageDataUrl.value) return;
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       void goToPreviousPage();
-      return;
-    }
-
-    if (event.key === "ArrowRight") {
+    } else if (event.key === "ArrowRight") {
       event.preventDefault();
       void goToNextPage();
     }
   }
+
+  onMounted(() => window.addEventListener("keydown", handleArrowNavigation));
+  onUnmounted(() => window.removeEventListener("keydown", handleArrowNavigation));
 
   return {
     selectedComicPath,
@@ -151,6 +161,5 @@ export function useComicView() {
     toggleImageVisibilityMode,
     goToPreviousPage,
     goToNextPage,
-    handleArrowNavigation,
   };
 }

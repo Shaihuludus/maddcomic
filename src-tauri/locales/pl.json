@@ -1,0 +1,26 @@
+{
+  "_name": "Polski",
+  "tabComic": "Przeglądarka",
+  "tabLibrary": "Biblioteka",
+  "tabSettings": "Ustawienia",
+
+  "openComic": "Otwórz komiks",
+  "zoomToWidth": "Dopasuj szerokość",
+  "showFullPage": "Pokaż całą stronę",
+  "previous": "Poprzednia",
+  "next": "Następna",
+  "pageIndicator": "Strona {0} / {1}",
+
+  "comicLoaded": "Załadowano komiks. Liczba stron: {0}.",
+  "selectionCanceled": "Anulowano wybór.",
+  "failedToOpen": "Nie udało się otworzyć komiksu: {0}",
+  "failedToSwitchPage": "Nie udało się zmienić strony: {0}",
+
+  "folders": "Foldery",
+  "addFolder": "Dodaj folder",
+  "noComicsInFolder": "Brak komiksów w tym folderze.",
+  "selectFolderHint": "Wybierz folder, aby przeglądać komiksy.",
+
+  "settings": "Ustawienia",
+  "language": "Język"
+}

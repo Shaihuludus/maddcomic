@@ -1,0 +1,26 @@
+{
+  "_name": "English",
+  "tabComic": "Comic view",
+  "tabLibrary": "Library",
+  "tabSettings": "Settings",
+
+  "openComic": "Open comic",
+  "zoomToWidth": "Zoom to width",
+  "showFullPage": "Show full page",
+  "previous": "Previous",
+  "next": "Next",
+  "pageIndicator": "Page {0} / {1}",
+
+  "comicLoaded": "Comic loaded. {0} pages found.",
+  "selectionCanceled": "Selection canceled.",
+  "failedToOpen": "Failed to open comic: {0}",
+  "failedToSwitchPage": "Failed to switch page: {0}",
+
+  "folders": "Folders",
+  "addFolder": "Add folder",
+  "noComicsInFolder": "No comics found in this folder.",
+  "selectFolderHint": "Select a folder to browse comics.",
+
+  "settings": "Settings",
+  "language": "Language"
+}

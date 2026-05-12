@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import Tab from 'primevue/tab';
@@ -8,17 +7,19 @@ import TabPanel from 'primevue/tabpanel';
 import ComicView from "./views/comic/ComicView.vue";
 import LibraryView from "./views/library/LibraryView.vue";
 import SettingsView from "./views/SettingsView.vue";
+import { activeTab } from "./state/appState.js";
+import { useI18n } from "./i18n/index.js";
 
-const activeTab = ref("comic");
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="app-wrapper">
     <Tabs v-model:value="activeTab" class="app-tabs">
       <TabList class="app-tab-list">
-        <Tab value="comic">Comic view</Tab>
-        <Tab value="library">Library</Tab>
-        <Tab value="settings">Settings</Tab>
+        <Tab value="comic">{{ t('tabComic') }}</Tab>
+        <Tab value="library">{{ t('tabLibrary') }}</Tab>
+        <Tab value="settings">{{ t('tabSettings') }}</Tab>
       </TabList>
       <TabPanels class="app-panels">
         <TabPanel value="comic">

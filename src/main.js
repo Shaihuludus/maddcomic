@@ -4,6 +4,7 @@ import { definePreset } from '@primeuix/themes'
 import Aura from '@primeuix/themes/aura'
 import 'primeicons/primeicons.css'
 import App from './App.vue'
+import { initI18n } from './i18n/index.js'
 
 const BlueGreyPreset = definePreset(Aura, {
   semantic: {
@@ -23,13 +24,15 @@ const BlueGreyPreset = definePreset(Aura, {
   },
 })
 
-createApp(App)
-  .use(PrimeVue, {
-    theme: {
-      preset: BlueGreyPreset,
-      options: {
-        darkModeSelector: false,
+initI18n().then(() => {
+  createApp(App)
+    .use(PrimeVue, {
+      theme: {
+        preset: BlueGreyPreset,
+        options: {
+          darkModeSelector: false,
+        },
       },
-    },
-  })
-  .mount('#app')
+    })
+    .mount('#app')
+})
